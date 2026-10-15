@@ -4,7 +4,7 @@ const data = await rep.json();
 
 console.log(data)
 
-// Affichiage de la gallery
+// Affichage de la gallery
 const galleri = document.querySelector(".gallery");
 
 const figureData = (data) =>{
@@ -23,11 +23,13 @@ const buttonObjet = document.querySelector(".btnObjet");
 const buttonAppartement = document.querySelector(".btnAppartement");
 const buttonHotel = document.querySelector(".btnHotel");
 
+
 buttonTous.addEventListener("click", () => {
     document.querySelector(".gallery").innerHTML = " ";
     return figureData(data);
 })
 
+//Filtrer
 buttonObjet.addEventListener("click", () => {
     const objetFiltrees = data.filter((data) => {
         return data.categoryId === 1;
