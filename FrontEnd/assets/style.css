@@ -131,6 +131,34 @@ li:hover {
 	text-align: center;
 	margin-bottom: 1em;
 }
+/*Partie button*/
+
+.btn{
+	display: flex;
+	justify-content: center;
+	gap: 10px;
+	margin-bottom: 51px;
+	margin-top: 51px;
+}
+
+.btn button{
+	font-size: 16px;
+	font-weight: 700;
+	font-family: "Syne", sans-serif;
+	padding: 9px 13px;
+	border: 1px solid #1D6154;
+	color: #1D6154;
+	background-color: transparent;
+	border-radius: 20px;
+	min-width: 100px;
+}
+
+.btn button:focus{
+	color: white;
+	background-color: #1D6154;
+}
+
+/*Partie gallery*/
 .gallery {
 	width: 100%;
 	display: grid;
