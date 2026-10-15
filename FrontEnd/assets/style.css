@@ -176,7 +176,7 @@ li:hover {
 	width: 100%;
 
 
-/**Section formulaire contact et log in**/
+/**Section formulaire**/
 }
 .formulaire {
 	width: 50%;
@@ -227,12 +227,6 @@ input[type="submit"]{
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
-/**Section login**/
-#login {
-	margin-top: 150px;
-	margin-bottom: 355px;
-}
-
 /*footer*/
 
 footer nav ul {
@@ -253,5 +247,9 @@ footer nav ul {
 	padding-bottom: 20px;
 }
 
-
+/**Section login**/
+#login {
+	margin-top: 150px;
+	margin-bottom: 355px;
+}
 
