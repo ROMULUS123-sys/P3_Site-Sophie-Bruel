@@ -23,7 +23,7 @@ const buttonObjet = document.querySelector(".btnObjet");
 const buttonAppartement = document.querySelector(".btnAppartement");
 const buttonHotel = document.querySelector(".btnHotel");
 
-
+//Filtrer
 buttonTous.addEventListener("click", () => {
     document.querySelector(".gallery").innerHTML = " ";
     return figureData(data);
