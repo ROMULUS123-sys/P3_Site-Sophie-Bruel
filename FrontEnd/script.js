@@ -54,3 +54,28 @@ buttonHotel.addEventListener("click", () => {
     figureData(objetFiltrees);
 })
 
+// Page quand connexion etablie
+const token = window.localStorage.getItem("utilisateur")
+
+if(token !== null){
+    const paragraphe = document.createElement("p")
+    paragraphe.classList.add("enHaut")
+    paragraphe.textContent = "Mode edition"
+
+    const body = document.querySelector("body")
+    body.prepend(paragraphe)
+
+    const logout = document.querySelector(".login")
+    logout.textContent = "logout"
+
+
+    const titre = document.querySelector("#portfolio h2");
+    const lienModifier = document.createElement("a");
+    lienModifier.href = "#";
+    lienModifier.innerHTML = `<i class="fa-regular fa-pen-to-square"></i> modifier`;
+    titre.appendChild(lienModifier);
+
+    const filtres = document.querySelector(".btn");
+    filtres.style.display = "none";
+
+}

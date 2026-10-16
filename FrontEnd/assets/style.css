@@ -253,3 +253,18 @@ footer nav ul {
 	margin-bottom: 355px;
 }
 
+/*Section acceuil connecte*/
+.enHaut{
+	width: 100%;
+	background-color: black;
+	text-align: center;
+	padding:21px;
+	color: white;
+
+}
+
+#portfolio a{
+	color: black;
+	text-decoration: none;
+}
+
