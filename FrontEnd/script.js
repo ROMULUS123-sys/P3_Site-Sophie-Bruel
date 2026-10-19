@@ -83,5 +83,18 @@ if(token !== null){
 
     const filtres = document.querySelector(".btn");
     filtres.style.display = "none";
+
+    lienModifier.addEventListener("click", (e) => {
+        e.preventDefault();
+        ouvrirModale();
+    });
 }
+
+
+// Modal
+const modale = document.getElementById("modalGallery")
+
+const ouvrirModale = () =>{
+    modale.style.display = "flex";
+};
 
