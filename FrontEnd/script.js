@@ -74,27 +74,69 @@ if(token !== null){
     window.localStorage.removeItem("utilisateur")
     })
 
+    const openmodal = (e) => {
+        e.preventDefault()
+        const target = document.querySelector(".modal")
+        target.style.display = "flex"
+        target.removeAttribute("aria-hidden")
+        target.setAttribute("aria-modal", "true")
+    }
+
+    const closeModal = () => {
+        const target = document.querySelector(".modal")
+        target.style.display = "none"
+        target.setAttribute("aria-hidden", "true")
+        target.removeAttribute("aria-modal")
+        const modal1 = document.getElementById("modal1")
+        modal1.style.display = "flex"
+        const modal2 = document.getElementById("modal2")
+        modal2.style.display = "none"
+    }
 
     const titre = document.querySelector("#portfolio h2");
     const lienModifier = document.createElement("a");
     lienModifier.href = "#";
     lienModifier.innerHTML = `<i class="fa-regular fa-pen-to-square"></i> modifier`;
     titre.after(lienModifier);
+    lienModifier.addEventListener("click", openmodal)
+
+
+
+    const fermerModal = document.querySelectorAll(".fa-xmark")
+    fermerModal.forEach((croix) => {
+        croix.addEventListener("click", closeModal)
+    })
+
+    const modalRecuperer = document.querySelector(".modal")
+    modalRecuperer.addEventListener("click", (e) => {
+        if(e.target === modalRecuperer){
+            closeModal()
+        }
+    })
+
+    const ouvrirModal2 = document.querySelector("#modal1 input")
+    ouvrirModal2.addEventListener("click", () => {
+        const modal1 = document.getElementById("modal1")
+        modal1.style.display = "none"
+        const modal2 = document.getElementById("modal2")
+        modal2.style.display = "flex"
+    })
+
+    const revenirGallerie = document.querySelector(".fa-arrow-left-long")
+    revenirGallerie.addEventListener("click", () => {
+        const modal1 = document.getElementById("modal1")
+        modal1.style.display = "flex"
+        const modal2 = document.getElementById("modal2")
+        modal2.style.display = "none"
+    })
+    
+    const galleryModal = document.querySelector(".gallery-modal")
+    data.forEach((travail) =>{
+        galleryModal.innerHTML += `<figure><img src ="${travail.imageUrl}"><i class="fa-solid fa-trash-can"></i></figure>`
+    })
+    
 
     const filtres = document.querySelector(".btn");
     filtres.style.display = "none";
-
-    lienModifier.addEventListener("click", (e) => {
-        e.preventDefault();
-        ouvrirModale();
-    });
 }
-
-
-// Modal
-const modale = document.getElementById("modalGallery")
-
-const ouvrirModale = () =>{
-    modale.style.display = "flex";
-};
 

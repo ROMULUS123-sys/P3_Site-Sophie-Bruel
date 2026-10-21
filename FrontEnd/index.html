@@ -25,15 +25,6 @@
 	</nav>
 </header>
 <main>
-	<aside id="modalGallery" class="modal" aria-hidden="true" role="dialog" aria-labelledby="galeriePhoto">
-		<div class="modalWrapper">
-			<button class="modalClose" aria-label="Fermer"><i class="fa-solid fa-xmark"></i></button>
-			<h2 id="galeriePhoto">Galerie photo</h2>
-			<div class="galleryModal">
-			</div>
-			<button type="button" class="btnAjouter">Ajouter une photo</button>
-		</div>
-	</aside>
 	<section id="introduction">
 		<figure>
 			<img src="./assets/images/sophie-bluel.png" alt="">
@@ -45,6 +36,38 @@
 			<p>En cas de besoin, une équipe pluridisciplinaire peut-être constituée : architecte DPLG, décorateur(trice)</p>
 		</article>
 	</section>
+	<aside class="modal" aria-hidden="true">
+			<div id="modal1" class="modal-block" role="dialog" aria-labelledby="modal1-title">
+				<i class="fa-solid fa-xmark"></i>
+				<h2 id="modal1-title">Galerie photo</h2>
+				<div class="gallery-modal">
+
+				</div>
+				<input type="button" value="Ajouter une photo">
+			</div>
+			<div id="modal2" class="modal-block" role="dialog" aria-labelledby="modal2-title">
+				<div class="icon-modal2">
+					<i class="fa-solid fa-arrow-left-long"></i>
+					<i class="fa-solid fa-xmark"></i>
+				</div>
+				<img src="" alt="">
+				<h2 id="modal2-title">Ajout photo</h2>
+				<form action="" method="get">
+					<div class="upload">
+						<i class="fa-regular fa-image"></i>
+						<label for="photo" class="bouton-upload">+ Ajouter photo</label>
+						<input type="file" id="photo" name="photo" accept=".jpg, .png" hidden>
+						<p>jpg, png : 4mo max</p>
+					</div>
+					<label for="titre">Titre</label>
+					<input type="text" name="titre" id="titre">
+					<label for="categorie">Categorie</label>
+					<select name="categorie" id="categorie">
+					</select>
+					<input type="submit" value="Valider">
+				</form>
+			</div>
+		</aside>
 	<section id="portfolio">
 		<div class="titreProjet">
 			<h2>Mes Projets</h2>
