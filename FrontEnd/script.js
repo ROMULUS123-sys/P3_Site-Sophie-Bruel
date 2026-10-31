@@ -10,6 +10,7 @@ const galleri = document.querySelector(".gallery");
 const figureData = (data) =>{
     for(let i = 0; i < data.length; i++) {
     const figureRecuperer = document.createElement("figure");
+    figureRecuperer.dataset.id = data[i].id;
     figureRecuperer.innerHTML = `<img src ="${data[i].imageUrl}"><figcaption>${data[i].title}</figcaption>`;
     galleri.appendChild(figureRecuperer);
     }
@@ -132,8 +133,36 @@ if(token !== null){
     
     const galleryModal = document.querySelector(".gallery-modal")
     data.forEach((travail) =>{
-        galleryModal.innerHTML += `<figure><img src ="${travail.imageUrl}"><i class="fa-solid fa-trash-can"></i></figure>`
+        galleryModal.innerHTML += `<figure class = "figure"><img src ="${travail.imageUrl}"><i data-id ="${travail.id}" class="fa-solid fa-trash-can"></i></figure>`
     })
+
+    const poubelle = document.querySelectorAll(".fa-trash-can")
+    poubelle.forEach((icone) =>{
+        icone.addEventListener("click", async () => {
+            const id = icone.dataset.id
+            const reponse = await fetch(`http://localhost:5678/api/works/${id}`,{
+                method: "DELETE",
+                headers: { "Authorization": `Bearer ${token}` }
+            })
+
+            if(reponse.ok) {
+                icone.parentElement.remove()
+
+                const figureGalerie = document.querySelector(`.gallery figure[data-id="${id}"]`)
+                if (figureGalerie) {
+                figureGalerie.remove()
+                }
+            const index = data.findIndex((travail) => travail.id == id)
+            data.splice(index, 1)
+
+            } else {
+            alert("La suppression a échoué")
+            }
+            
+        }) 
+    })
+
+    
     
 
     const filtres = document.querySelector(".btn");
