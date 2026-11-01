@@ -162,7 +162,13 @@ if(token !== null){
         }) 
     })
 
+    const repCategories = await fetch("http://localhost:5678/api/categories");
+    const dataCategories = await repCategories.json();
     
+    const selectCategorie = document.querySelector("#categorie")
+    dataCategories.forEach(categorie => {
+        selectCategorie.innerHTML += `<option value=${categorie.id}>${categorie.name}</option>`
+    })
     
 
     const filtres = document.querySelector(".btn");
