@@ -166,10 +166,89 @@ if(token !== null){
     const dataCategories = await repCategories.json();
     
     const selectCategorie = document.querySelector("#categorie")
+    selectCategorie.innerHTML = `<option value=""></option>`
     dataCategories.forEach(categorie => {
         selectCategorie.innerHTML += `<option value=${categorie.id}>${categorie.name}</option>`
     })
     
+    const inputPhoto = document.querySelector("#photo")
+    inputPhoto.addEventListener("change", () => {
+        const fichier = inputPhoto.files[0]
+        const adresse = URL.createObjectURL(fichier)
+        const apercu = document.querySelector("#modal2 > img")
+        apercu.src = adresse
+        apercu.alt = "photo"
+
+    })
+
+    const formModal2 = document.querySelector("#modal2 > form")
+    formModal2.addEventListener("submit", async (e) => {
+        e.preventDefault()
+        const fichier = inputPhoto.files[0]
+        const titre = document.getElementById("titre").value
+        const categorie = document.getElementById("categorie").value
+
+        if(!fichier || titre.trim() === "" || categorie === ""){
+            alert("Veuillez remplir les champs")
+            return
+        }
+
+        const formData = new FormData()
+        formData.append("image", fichier)
+        formData.append("title", titre)
+        formData.append("category", categorie)
+
+        
+        const repModal2 = await fetch("http://localhost:5678/api/works", {
+            method: "POST",
+            headers: { "Authorization": `Bearer ${token}` } ,
+            body: formData
+        })
+
+        if (repModal2.ok) {
+            const nouveauProjet = await repModal2.json()
+            data.push(nouveauProjet)
+            figureData([nouveauProjet])
+
+            const figureModal = document.createElement("figure")
+            figureModal.classList.add("figure")
+            figureModal.innerHTML = `<img src="${nouveauProjet.imageUrl}"><i data-id="${nouveauProjet.id}" class="fa-solid fa-trash-can"></i>`
+            galleryModal.appendChild(figureModal)
+
+            const nouvellePoubelle = figureModal.querySelector(".fa-trash-can")
+            nouvellePoubelle.addEventListener("click", async () => {
+                const id = nouvellePoubelle.dataset.id
+                const reponse = await fetch(`http://localhost:5678/api/works/${id}`, {
+                    method: "DELETE",
+                    headers: { "Authorization": `Bearer ${token}` }
+                })
+
+                if (reponse.ok) {
+                    nouvellePoubelle.parentElement.remove()
+
+                    const figureGalerie = document.querySelector(`.gallery figure[data-id="${id}"]`)
+                    if (figureGalerie) {
+                        figureGalerie.remove()
+                    }
+
+                    const index = data.findIndex((travail) => travail.id == id)
+                    data.splice(index, 1)
+                } else {
+                    alert("La suppression a échoué")
+                }
+            })
+            
+            formModal2.reset()
+            const apercu = document.querySelector("#modal2 > img")
+            apercu.removeAttribute("src")
+            apercu.alt = ""
+            closeModal()
+
+        } else {
+            alert("erreur du chargement de l image")
+        }
+    })
+
 
     const filtres = document.querySelector(".btn");
     filtres.style.display = "none";
