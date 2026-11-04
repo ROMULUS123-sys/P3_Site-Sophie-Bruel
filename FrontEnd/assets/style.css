@@ -481,3 +481,16 @@ footer nav ul {
 	font-size: 14px;
 	cursor: pointer;
 }
+
+.apercu{
+	display: none;
+	height: 100%;
+	max-width: 100%;
+	object-fit: contain;
+}
+
+#modal2 input[type="submit"].valide {
+	
+	background-color: #1D6154;
+	
+}
