@@ -84,6 +84,8 @@ h2{
 	font-size: 30px;
 	color: #1D6154
 }
+
+/**Navigation**/
 nav ul {
 	display: flex;
 	align-items: center;
@@ -95,9 +97,16 @@ nav li {
 	font-size: 1.2em;
 }
 
+nav a{
+	text-decoration: none;
+	color: black;
+}
+
 li:hover {
 	color: #B1663C;
 }
+
+/**Section introduction**/
 #introduction {
 	display: flex;
 	align-items: center;
@@ -121,10 +130,40 @@ li:hover {
 #introduction p {
 	margin-bottom: 0.5em;
 }
+
+/**Section portfolio**/
 #portfolio h2 {
 	text-align: center;
-	margin-bottom: 1em;
+	
 }
+/*Partie button*/
+
+.btn{
+	display: flex;
+	justify-content: center;
+	gap: 10px;
+	margin-bottom: 51px;
+	margin-top: 51px;
+}
+
+.btn button{
+	font-size: 16px;
+	font-weight: 700;
+	font-family: "Syne", sans-serif;
+	padding: 9px 13px;
+	border: 1px solid #1D6154;
+	color: #1D6154;
+	background-color: transparent;
+	border-radius: 20px;
+	min-width: 100px;
+}
+
+.btn button:focus{
+	color: white;
+	background-color: #1D6154;
+}
+
+/*Partie gallery*/
 .gallery {
 	width: 100%;
 	display: grid;
@@ -136,37 +175,35 @@ li:hover {
 .gallery img {
 	width: 100%;
 
+
+/**Section formulaire**/
 }
-#contact {
+.formulaire {
 	width: 50%;
 margin: auto;
 }
-#contact > * {
+.formulaire > * {
 	text-align: center;
 
 }
-#contact h2{
+.formulaire h2{
 	margin-bottom: 20px;
 }
-#contact form {
+.formulaire form {
 	text-align: left;
 	margin-top:30px;
 	display: flex;
 	flex-direction: column;
 }
 
-#contact input {
+.formulaire input {
 	height: 50px;
 	font-size: 1.2em;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
-#contact label {
+.formulaire label {
 	margin: 2em 0 1em 0;
-}
-#contact textarea {
-	border: none;
-	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
 input[type="submit"]{
@@ -180,9 +217,280 @@ input[type="submit"]{
 	border-radius: 60px ;
 }
 
+.formulaire a{
+	color: black;
+}
+
+/*Section contact*/
+#contact textarea {
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+
+/*footer*/
+
 footer nav ul {
 	display: flex;
 	justify-content: flex-end;
 	margin: 2em
 }
 
+/*page login*/
+
+#pageLogin{
+	background-color: #FFFEF8;
+}
+
+#pageLogin footer{
+	background-color: white;
+	padding-top: 24px;
+	padding-bottom: 20px;
+}
+
+/**Section login**/
+#login {
+	margin-top: 150px;
+	margin-bottom: 355px;
+}
+
+/*Section acceuil connecte*/
+.enHaut{
+	display: block;
+	width: 100%;
+	background-color: black;
+	text-align: center;
+	padding:21px;
+	color: white;
+	text-decoration: none;
+
+}
+
+#portfolio a{
+	color: black;
+	text-decoration: none;
+}
+
+.titreProjet{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 30px;
+	margin-bottom: 80px;
+	margin-top: 100px;
+}
+
+/*Modal*/
+.modal{
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	justify-content: center;
+	align-items: center;
+	background-color: rgba(0, 0, 0, 0.8);
+
+}
+
+.modal-block{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	box-sizing: border-box;
+	width: 630px;
+	min-height: 670px;
+	max-width: calc(100vw - 30px);
+	max-height: calc(100vh - 30px);
+	overflow: auto;
+	padding: 26px 30px 46px;
+	background-color: white;
+	border-radius: 10px;
+}
+
+#modal2 {
+	display: none;
+}
+
+.modal-block .fa-xmark {
+	align-self: flex-end;
+	font-size: 24px;
+	cursor: pointer;
+}
+
+.icon-modal2 {
+	display: flex;
+	justify-content: space-between;
+	align-self: stretch;
+	font-size: 21px;
+}
+
+.icon-modal2 i {
+	cursor: pointer;
+}
+
+.modal-block h2 {
+	font-family: 'Work Sans';
+	font-weight: 400;
+	font-size: 26px;
+	color: black;
+	text-align: center;
+	margin: 20px 0 46px;
+}
+
+/*Modal 1 gallery*/
+
+.gallery-modal {
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+	gap: 30px 9px;
+	width: 420px;
+	padding-bottom: 47px;
+	border-bottom: 1px solid #B3B3B3;
+}
+
+.gallery-modal figure {
+	position: relative;
+}
+
+.gallery-modal img {
+	display: block;
+	width: 100%;
+	height: 104px;
+	object-fit: cover;
+}
+
+.gallery-modal .fa-trash-can {
+	position: absolute;
+	top: 6px;
+	right: 5px;
+	width: 17px;
+	height: 17px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: black;
+	color: white;
+	font-size: 9px;
+	border-radius: 2px;
+	cursor: pointer;
+}
+
+#modal1 input[type="button"] {
+	margin-top: 40px;
+	width: 237px;
+	height: 36px;
+	border: none;
+	border-radius: 60px;
+	background-color: #1D6154;
+	color: white;
+	font-family: 'Syne';
+	font-weight: 700;
+	font-size: 14px;
+	cursor: pointer;
+}
+
+/*Modal 2*/
+
+#modal2 form {
+	display: flex;
+	flex-direction: column;
+	width: 420px;
+}
+
+
+.upload {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	box-sizing: border-box;
+	height: 169px;
+	margin-bottom: 30px;
+	background-color: #E8F1F6;
+	border-radius: 3px;
+}
+
+.upload .fa-image {
+	font-size: 76px;
+	color: #B9C5CC;
+}
+
+.bouton-upload {
+	margin-top: 7px;
+	padding: 10px 33px;
+	border-radius: 50px;
+	background-color: #CBD6DC;
+	color: #306685;
+	font-size: 14px;
+	font-weight: 500;
+	cursor: pointer;
+}
+
+.upload p {
+	margin-top: 7px;
+	font-size: 10px;
+	color: #444444;
+}
+
+
+#modal2 form > label {
+	margin-bottom: 10px;
+	font-size: 14px;
+	font-weight: 500;
+	color: #3D3D3D;
+}
+
+
+#modal2 input[type="text"],
+#modal2 select {
+	box-sizing: border-box;
+	height: 51px;
+	margin-bottom: 21px;
+	padding: 0 10px;
+	border: none;
+	background-color: white;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+	font-size: 14px;
+}
+
+#modal2 select {
+	margin-bottom: 47px;
+}
+
+
+#modal2 form::after {
+	content: "";
+	order: 1;
+	border-top: 1px solid #B3B3B3;
+}
+
+
+#modal2 input[type="submit"] {
+	order: 2;
+	align-self: center;
+	margin: 32px 0 0;
+	width: 237px;
+	height: 36px;
+	border: none;
+	border-radius: 60px;
+	background-color: #A7A7A7;
+	color: white;
+	font-family: 'Syne';
+	font-weight: 700;
+	font-size: 14px;
+	cursor: pointer;
+}
+
+.apercu{
+	display: none;
+	height: 100%;
+	max-width: 100%;
+	object-fit: contain;
+}
+
+#modal2 input[type="submit"].valide {
+	
+	background-color: #1D6154;
+	
+}
