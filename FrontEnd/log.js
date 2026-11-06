@@ -16,7 +16,6 @@ form.addEventListener("submit", async (e) =>{
             body: chargeUtile
         })
         const data = await rep.json();
-        console.log(data);
 
             if(rep.status === 200){
             window.localStorage.setItem("utilisateur",data.token);

@@ -2,8 +2,6 @@ const rep = await fetch("http://localhost:5678/api/works");
 
 const data = await rep.json();
 
-console.log(data);
-
 // Affichage de la gallery
 const galleri = document.querySelector(".gallery");
 
@@ -11,7 +9,7 @@ const figureData = (data) => {
   for (let i = 0; i < data.length; i++) {
     const figureRecuperer = document.createElement("figure");
     figureRecuperer.dataset.id = data[i].id;
-    figureRecuperer.innerHTML = `<img src ="${data[i].imageUrl}"><figcaption>${data[i].title}</figcaption>`;
+    figureRecuperer.innerHTML = `<img src ="${data[i].imageUrl}" alt="${data[i].title}"><figcaption>${data[i].title}</figcaption>`;
     galleri.appendChild(figureRecuperer);
   }
 };
@@ -23,15 +21,25 @@ const buttonTous = document.querySelector(".btnTous");
 const buttonObjet = document.querySelector(".btnObjet");
 const buttonAppartement = document.querySelector(".btnAppartement");
 const buttonHotel = document.querySelector(".btnHotel");
+const boutonsFiltre = document.querySelectorAll(".btn button")
+
+const activerBouton = (boutonClique) => {
+    boutonsFiltre.forEach((bouton) => {
+        bouton.classList.remove("actif")
+    })
+    boutonClique.classList.add("actif")
+}
 
 //Filtrer
 buttonTous.addEventListener("click", () => {
+    activerBouton(buttonTous)
   document.querySelector(".gallery").innerHTML = " ";
   return figureData(data);
 });
 
 //Filtrer
 buttonObjet.addEventListener("click", () => {
+    activerBouton(buttonObjet)
   const objetFiltrees = data.filter((data) => {
     return data.categoryId === 1;
   });
@@ -40,6 +48,7 @@ buttonObjet.addEventListener("click", () => {
 });
 
 buttonAppartement.addEventListener("click", () => {
+    activerBouton(buttonAppartement)
   const objetFiltrees = data.filter((data) => {
     return data.categoryId === 2;
   });
@@ -48,6 +57,7 @@ buttonAppartement.addEventListener("click", () => {
 });
 
 buttonHotel.addEventListener("click", () => {
+    activerBouton(buttonHotel)
   const objetFiltrees = data.filter((data) => {
     return data.categoryId === 3;
   });
@@ -133,7 +143,7 @@ if (token !== null) {
 
   const galleryModal = document.querySelector(".gallery-modal");
   data.forEach((travail) => {
-    galleryModal.innerHTML += `<figure class = "figure"><img src ="${travail.imageUrl}"><i data-id ="${travail.id}" class="fa-solid fa-trash-can"></i></figure>`;
+    galleryModal.innerHTML += `<figure class = "figure"><img src ="${travail.imageUrl}" alt="${travail.title}"><i data-id ="${travail.id}" class="fa-solid fa-trash-can"></i></figure>`;
   });
 
   const poubelle = document.querySelectorAll(".fa-trash-can");
@@ -241,7 +251,7 @@ if (token !== null) {
 
       const figureModal = document.createElement("figure");
       figureModal.classList.add("figure");
-      figureModal.innerHTML = `<img src="${nouveauProjet.imageUrl}"><i data-id="${nouveauProjet.id}" class="fa-solid fa-trash-can"></i>`;
+      figureModal.innerHTML = `<img src="${nouveauProjet.imageUrl}" alt="${nouveauProjet.title}"><i data-id="${nouveauProjet.id}" class="fa-solid fa-trash-can"></i>`;
       galleryModal.appendChild(figureModal);
 
       const nouvellePoubelle = figureModal.querySelector(".fa-trash-can");
