@@ -1,71 +1,48 @@
 const rep = await fetch("http://localhost:5678/api/works");
-
 const data = await rep.json();
 
-// Affichage de la gallery
 const galleri = document.querySelector(".gallery");
 
-const figureData = (data) => {
-  for (let i = 0; i < data.length; i++) {
-    const figureRecuperer = document.createElement("figure");
-    figureRecuperer.dataset.id = data[i].id;
-    figureRecuperer.innerHTML = `<img src ="${data[i].imageUrl}" alt="${data[i].title}"><figcaption>${data[i].title}</figcaption>`;
-    galleri.appendChild(figureRecuperer);
-  }
+const figureData = (travaux) => {
+  travaux.forEach((travail) => {
+    const figure = document.createElement("figure");
+    figure.dataset.id = travail.id;
+    figure.innerHTML = `<img src="${travail.imageUrl}" alt="${travail.title}"><figcaption>${travail.title}</figcaption>`;
+    galleri.appendChild(figure);
+  });
 };
 
 figureData(data);
 
-// button
-const buttonTous = document.querySelector(".btnTous");
-const buttonObjet = document.querySelector(".btnObjet");
-const buttonAppartement = document.querySelector(".btnAppartement");
-const buttonHotel = document.querySelector(".btnHotel");
-const boutonsFiltre = document.querySelectorAll(".btn button")
+const boutonsFiltre = document.querySelectorAll(".btn button");
 
 const activerBouton = (boutonClique) => {
-    boutonsFiltre.forEach((bouton) => {
-        bouton.classList.remove("actif")
-    })
-    boutonClique.classList.add("actif")
-}
-
-//Filtrer
-buttonTous.addEventListener("click", () => {
-    activerBouton(buttonTous)
-  document.querySelector(".gallery").innerHTML = " ";
-  return figureData(data);
-});
-
-//Filtrer
-buttonObjet.addEventListener("click", () => {
-    activerBouton(buttonObjet)
-  const objetFiltrees = data.filter((data) => {
-    return data.categoryId === 1;
+  boutonsFiltre.forEach((bouton) => {
+    bouton.classList.remove("actif");
   });
-  document.querySelector(".gallery").innerHTML = " ";
-  figureData(objetFiltrees);
-});
+  boutonClique.classList.add("actif");
+};
 
-buttonAppartement.addEventListener("click", () => {
-    activerBouton(buttonAppartement)
-  const objetFiltrees = data.filter((data) => {
-    return data.categoryId === 2;
-  });
-  document.querySelector(".gallery").innerHTML = " ";
-  figureData(objetFiltrees);
-});
+const filtrerGalerie = (bouton, categoryId) => {
+  activerBouton(bouton);
+  const travauxFiltres =
+    categoryId === null
+      ? data
+      : data.filter((travail) => travail.categoryId === categoryId);
+  galleri.innerHTML = "";
+  figureData(travauxFiltres);
+};
 
-buttonHotel.addEventListener("click", () => {
-    activerBouton(buttonHotel)
-  const objetFiltrees = data.filter((data) => {
-    return data.categoryId === 3;
-  });
-  document.querySelector(".gallery").innerHTML = " ";
-  figureData(objetFiltrees);
-});
+const brancherFiltre = (selecteur, categoryId) => {
+  const bouton = document.querySelector(selecteur);
+  bouton.addEventListener("click", () => filtrerGalerie(bouton, categoryId));
+};
 
-// Page quand connexion etablie
+brancherFiltre(".btnTous", null);
+brancherFiltre(".btnObjet", 1);
+brancherFiltre(".btnAppartement", 2);
+brancherFiltre(".btnHotel", 3);
+
 const token = window.localStorage.getItem("utilisateur");
 
 if (token !== null) {
@@ -73,35 +50,58 @@ if (token !== null) {
   modifierHaut.classList.add("enHaut");
   modifierHaut.href = "#";
   modifierHaut.innerHTML = `<i class="fa-regular fa-pen-to-square"></i> mode edition`;
-
-  const body = document.querySelector("body");
-  body.prepend(modifierHaut);
+  document.querySelector("body").prepend(modifierHaut);
 
   const logout = document.querySelector(".login");
   logout.textContent = "logout";
   logout.setAttribute("href", "index.html");
-
   logout.addEventListener("click", () => {
     window.localStorage.removeItem("utilisateur");
   });
 
+  const modal = document.querySelector(".modal");
+  const modal1 = document.getElementById("modal1");
+  const modal2 = document.getElementById("modal2");
+  const galleryModal = document.querySelector(".gallery-modal");
+
+  const formModal2 = document.querySelector("#modal2 > form");
+  const inputPhoto = document.querySelector("#photo");
+  const inputTitre = document.getElementById("titre");
+  const selectCategorie = document.querySelector("#categorie");
+  const boutonValider = document.querySelector("#modal2 input[type='submit']");
+  const apercu = document.querySelector(".apercu");
+  const elementsUpload = document.querySelectorAll(
+    ".upload i, .upload label, .upload p",
+  );
+
+  const afficherVueModal = (numero) => {
+    modal1.style.display = numero === 1 ? "flex" : "none";
+    modal2.style.display = numero === 2 ? "flex" : "none";
+  };
+
+  const viderFormulaire = () => {
+    formModal2.reset();
+    apercu.removeAttribute("src");
+    apercu.alt = "";
+    apercu.style.display = "none";
+    elementsUpload.forEach((element) => {
+      element.style.display = "";
+    });
+    boutonValider.classList.remove("valide");
+  };
+
   const openmodal = (e) => {
     e.preventDefault();
-    const target = document.querySelector(".modal");
-    target.style.display = "flex";
-    target.removeAttribute("aria-hidden");
-    target.setAttribute("aria-modal", "true");
+    modal.style.display = "flex";
+    modal.removeAttribute("aria-hidden");
+    modal.setAttribute("aria-modal", "true");
   };
 
   const closeModal = () => {
-    const target = document.querySelector(".modal");
-    target.style.display = "none";
-    target.setAttribute("aria-hidden", "true");
-    target.removeAttribute("aria-modal");
-    const modal1 = document.getElementById("modal1");
-    modal1.style.display = "flex";
-    const modal2 = document.getElementById("modal2");
-    modal2.style.display = "none";
+    modal.style.display = "none";
+    modal.setAttribute("aria-hidden", "true");
+    modal.removeAttribute("aria-modal");
+    afficherVueModal(1);
     viderFormulaire();
   };
 
@@ -117,91 +117,78 @@ if (token !== null) {
     croix.addEventListener("click", closeModal);
   });
 
-  const modalRecuperer = document.querySelector(".modal");
-  modalRecuperer.addEventListener("click", (e) => {
-    if (e.target === modalRecuperer) {
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) {
       closeModal();
     }
   });
 
   const ouvrirModal2 = document.querySelector("#modal1 input");
   ouvrirModal2.addEventListener("click", () => {
-    const modal1 = document.getElementById("modal1");
-    modal1.style.display = "none";
-    const modal2 = document.getElementById("modal2");
-    modal2.style.display = "flex";
+    afficherVueModal(2);
   });
 
   const revenirGallerie = document.querySelector(".fa-arrow-left-long");
   revenirGallerie.addEventListener("click", () => {
-    const modal1 = document.getElementById("modal1");
-    modal1.style.display = "flex";
-    const modal2 = document.getElementById("modal2");
-    modal2.style.display = "none";
+    afficherVueModal(1);
     viderFormulaire();
   });
 
-  const galleryModal = document.querySelector(".gallery-modal");
-  data.forEach((travail) => {
-    galleryModal.innerHTML += `<figure class = "figure"><img src ="${travail.imageUrl}" alt="${travail.title}"><i data-id ="${travail.id}" class="fa-solid fa-trash-can"></i></figure>`;
-  });
-
-  const poubelle = document.querySelectorAll(".fa-trash-can");
-  poubelle.forEach((icone) => {
-    icone.addEventListener("click", async () => {
-      const id = icone.dataset.id;
-      const reponse = await fetch(`http://localhost:5678/api/works/${id}`, {
-        method: "DELETE",
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
-      if (reponse.ok) {
-        icone.parentElement.remove();
-
-        const figureGalerie = document.querySelector(
-          `.gallery figure[data-id="${id}"]`,
-        );
-        if (figureGalerie) {
-          figureGalerie.remove();
-        }
-        const index = data.findIndex((travail) => travail.id == id);
-        data.splice(index, 1);
-      } else {
-        alert("La suppression a échoué");
-      }
+  const supprimerTravail = async (icone) => {
+    const id = icone.dataset.id;
+    const reponse = await fetch(`http://localhost:5678/api/works/${id}`, {
+      method: "DELETE",
+      headers: { Authorization: `Bearer ${token}` },
     });
+
+    if (reponse.ok) {
+      icone.parentElement.remove();
+
+      const figureGalerie = document.querySelector(
+        `.gallery figure[data-id="${id}"]`,
+      );
+      if (figureGalerie) {
+        figureGalerie.remove();
+      }
+
+      const index = data.findIndex((travail) => travail.id == id);
+      data.splice(index, 1);
+    } else {
+      alert("La suppression a échoué");
+    }
+  };
+
+  const creerFigureModal = (travail) => {
+    const figure = document.createElement("figure");
+    figure.classList.add("figure");
+    figure.innerHTML = `<img src="${travail.imageUrl}" alt="${travail.title}"><i data-id="${travail.id}" class="fa-solid fa-trash-can"></i>`;
+    galleryModal.appendChild(figure);
+
+    const poubelle = figure.querySelector(".fa-trash-can");
+    poubelle.addEventListener("click", () => supprimerTravail(poubelle));
+  };
+
+  data.forEach((travail) => {
+    creerFigureModal(travail);
   });
 
   const repCategories = await fetch("http://localhost:5678/api/categories");
   const dataCategories = await repCategories.json();
 
-  const selectCategorie = document.querySelector("#categorie");
   selectCategorie.innerHTML = `<option value=""></option>`;
   dataCategories.forEach((categorie) => {
-    selectCategorie.innerHTML += `<option value=${categorie.id}>${categorie.name}</option>`;
+    selectCategorie.innerHTML += `<option value="${categorie.id}">${categorie.name}</option>`;
   });
-
-  const inputPhoto = document.querySelector("#photo");
-  const apercu = document.querySelector(".apercu");
-  const elementsUpload = document.querySelectorAll(
-    ".upload i, .upload label, .upload p",
-  );
 
   inputPhoto.addEventListener("change", () => {
     const fichier = inputPhoto.files[0];
-    const adresse = URL.createObjectURL(fichier);
-    apercu.src = adresse;
+    apercu.src = URL.createObjectURL(fichier);
     apercu.alt = "Aperçu de la photo choisie";
     apercu.style.display = "block";
     elementsUpload.forEach((element) => {
       element.style.display = "none";
     });
   });
-
-  const formModal2 = document.querySelector("#modal2 > form");
-
-  const boutonValider = document.querySelector("#modal2 input[type='submit']");
-  const inputTitre = document.getElementById("titre");
 
   formModal2.addEventListener("input", () => {
     const complet =
@@ -211,31 +198,20 @@ if (token !== null) {
     boutonValider.classList.toggle("valide", complet);
   });
 
-  const viderFormulaire = () => {
-    formModal2.reset();
-    apercu.removeAttribute("src");
-    apercu.alt = "";
-    apercu.style.display = "none";
-    elementsUpload.forEach((element) => {
-      element.style.display = "";
-    });
-    boutonValider.classList.remove("valide");
-  };
-
   formModal2.addEventListener("submit", async (e) => {
     e.preventDefault();
     const fichier = inputPhoto.files[0];
-    const titre = document.getElementById("titre").value;
-    const categorie = document.getElementById("categorie").value;
+    const titreProjet = inputTitre.value;
+    const categorie = selectCategorie.value;
 
-    if (!fichier || titre.trim() === "" || categorie === "") {
+    if (!fichier || titreProjet.trim() === "" || categorie === "") {
       alert("Veuillez remplir les champs");
       return;
     }
 
     const formData = new FormData();
     formData.append("image", fichier);
-    formData.append("title", titre);
+    formData.append("title", titreProjet);
     formData.append("category", categorie);
 
     const repModal2 = await fetch("http://localhost:5678/api/works", {
@@ -248,43 +224,12 @@ if (token !== null) {
       const nouveauProjet = await repModal2.json();
       data.push(nouveauProjet);
       figureData([nouveauProjet]);
-
-      const figureModal = document.createElement("figure");
-      figureModal.classList.add("figure");
-      figureModal.innerHTML = `<img src="${nouveauProjet.imageUrl}" alt="${nouveauProjet.title}"><i data-id="${nouveauProjet.id}" class="fa-solid fa-trash-can"></i>`;
-      galleryModal.appendChild(figureModal);
-
-      const nouvellePoubelle = figureModal.querySelector(".fa-trash-can");
-      nouvellePoubelle.addEventListener("click", async () => {
-        const id = nouvellePoubelle.dataset.id;
-        const reponse = await fetch(`http://localhost:5678/api/works/${id}`, {
-          method: "DELETE",
-          headers: { Authorization: `Bearer ${token}` },
-        });
-
-        if (reponse.ok) {
-          nouvellePoubelle.parentElement.remove();
-
-          const figureGalerie = document.querySelector(
-            `.gallery figure[data-id="${id}"]`,
-          );
-          if (figureGalerie) {
-            figureGalerie.remove();
-          }
-
-          const index = data.findIndex((travail) => travail.id == id);
-          data.splice(index, 1);
-        } else {
-          alert("La suppression a échoué");
-        }
-      });
-
+      creerFigureModal(nouveauProjet);
       closeModal();
     } else {
       alert("erreur du chargement de l image");
     }
   });
 
-  const filtres = document.querySelector(".btn");
-  filtres.style.display = "none";
+  document.querySelector(".btn").style.display = "none";
 }
