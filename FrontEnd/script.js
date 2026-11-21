@@ -1,4 +1,6 @@
-const rep = await fetch("http://localhost:5678/api/works");
+import { API_URL } from "./config.js";
+
+const rep = await fetch(`${API_URL}/works`);
 const data = await rep.json();
 
 const galleri = document.querySelector(".gallery");
@@ -136,7 +138,7 @@ if (token !== null) {
 
   const supprimerTravail = async (icone) => {
     const id = icone.dataset.id;
-    const reponse = await fetch(`http://localhost:5678/api/works/${id}`, {
+    const reponse = await fetch(`${API_URL}/works/${id}`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -172,7 +174,7 @@ if (token !== null) {
     creerFigureModal(travail);
   });
 
-  const repCategories = await fetch("http://localhost:5678/api/categories");
+  const repCategories = await fetch(`${API_URL}/categories`);
   const dataCategories = await repCategories.json();
 
   selectCategorie.innerHTML = `<option value=""></option>`;
@@ -214,7 +216,7 @@ if (token !== null) {
     formData.append("title", titreProjet);
     formData.append("category", categorie);
 
-    const repModal2 = await fetch("http://localhost:5678/api/works", {
+    const repModal2 = await fetch(`${API_URL}/works`, {
       method: "POST",
       headers: { Authorization: `Bearer ${token}` },
       body: formData,
